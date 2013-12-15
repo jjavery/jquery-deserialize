@@ -72,7 +72,7 @@ jQuery.fn.deserialize = function( data, options ) {
         return this;
     }
 
-    var current, element, j, len, name, property, type, value,
+    var current, element, j, k, len, klen, name, property, type, value,
         change = jQuery.noop,
         complete = jQuery.noop,
         names = {};
@@ -123,9 +123,14 @@ jQuery.fn.deserialize = function( data, options ) {
                 element = [ element ];
                 len = 1;
             }
+            
+            if ( rselect.test( element[ 0 ].type ) ) {
+               j = names[ name ];
+            	element = element[ names[ name ] = ( j == undefined ) ? 0 : ++j ];
+            }
 
-            for ( j = 0; j < len; j++ ) {
-                current = element[ j ];
+            for ( k = 0, klen = element.length; k < klen; k++ ) {
+                current = element[ k ];
 
                 if ( current.value == value ) {
                     change.call( current, ( current[ property ] = true ) && value );
